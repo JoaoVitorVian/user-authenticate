@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   UnauthorizedException,
+  Request,
 } from '@nestjs/common';
 import { AuthService } from 'src/Service/auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -19,11 +20,9 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto): Promise<{ access_token: string }> {
     // eslint-disable-next-line prettier/prettier
     const user = await this.authService.validateUser(loginDto.email, loginDto.password);
-    console.log('teste', user);
     if (!user) {
       throw new UnauthorizedException('Credenciais inválidas');
     }
-    console.log('2');
     // eslint-disable-next-line prettier/prettier
     return this.authService.login({ email: user.email, id: user.id.toString() });
   }
