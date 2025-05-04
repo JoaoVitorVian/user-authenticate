@@ -4,6 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth.module';
 import { UsersModule } from './user.module';
+import { ProdutoService } from './Service/produto.service';
+import { ProdutoRepository } from './Repository/produto.repository';
+import { ProdutoController } from './Controller/produto.controller';
+import { Produto } from './Domain/produto.entity';
 
 @Module({
   imports: [
@@ -15,13 +19,15 @@ import { UsersModule } from './user.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, Produto],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([Produto]),
     AuthModule,
     UsersModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [ProdutoController],
+  providers: [ProdutoService, ProdutoRepository],
+  exports: [ProdutoService, ProdutoRepository],
 })
 export class AppModule {}
