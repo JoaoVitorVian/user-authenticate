@@ -26,4 +26,13 @@ export class ProdutoRepository {
     const product = await this.repository.findOne({ where: { name } });
     return product ?? null;
   }
+
+  async deleteProduto(id: number): Promise<boolean> {
+    const produto = await this.repository.findOne({ where: { id } });
+    if (!produto) {
+      return false;
+    }
+    await this.repository.delete(id);
+    return true;
+  }
 }

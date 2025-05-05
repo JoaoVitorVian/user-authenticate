@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards, Delete } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Produto } from 'src/Domain/produto.entity';
 import { User } from 'src/Domain/user.entity';
@@ -26,6 +26,13 @@ export class ProdutoController {
   @Get('findAll')
   async findAll(): Promise<Produto[] | null> {
     const produto = await this.produtoService.findAll();
+    return produto;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('deleteProduto')
+  async deleteProduto(@Query('id') id: number): Promise<boolean> {
+    const produto = await this.produtoService.deleteProduto(id);
     return produto;
   }
 }

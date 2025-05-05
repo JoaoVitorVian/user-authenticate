@@ -14,8 +14,14 @@ export class ProdutoService {
     const produtos = await this.produtoRepository.findAll();
     return produtos;
   }
+
   async findByName(name: string): Promise<Produto | null> {
     const produto = await this.produtoRepository.findByName(name);
+    return produto;
+  }
+
+  async deleteProduto(id: number): Promise<boolean> {
+    const produto = await this.produtoRepository.deleteProduto(id);
     return produto;
   }
 }
